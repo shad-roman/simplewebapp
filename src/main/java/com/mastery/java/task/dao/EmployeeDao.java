@@ -123,11 +123,11 @@ public class EmployeeDao {
 
     private Employee getResultEmployee(ResultSet resultSet) throws SQLException {
         Employee employee;
-        Integer employee_id = resultSet.getInt(1);
-        String first_name = resultSet.getString(2);
-        String last_name = resultSet.getString(3);
-        Integer department_id = resultSet.getInt(4);
-        String job_title = resultSet.getString(5);
+        Integer employeeId = resultSet.getInt(1);
+        String firstName = resultSet.getString(2);
+        String lastName = resultSet.getString(3);
+        Integer departmentId = resultSet.getInt(4);
+        String jobTitle = resultSet.getString(5);
         String gender = resultSet.getString(6);
         Gender genderEnum = null;
         if (gender.equals("Male")) {
@@ -135,9 +135,9 @@ public class EmployeeDao {
         } else if (gender.equals("Female")) {
             genderEnum = FEMALE;
         }
-        LocalDate date_of_birth = resultSet.getDate(7).toLocalDate();
+        LocalDate dateOfBirth = resultSet.getDate(7).toLocalDate();
 
-        employee = new Employee(employee_id, first_name, last_name, department_id, job_title, genderEnum, date_of_birth);
+        employee = new Employee(employeeId, firstName, lastName, departmentId, jobTitle, genderEnum, dateOfBirth);
         return employee;
     }
 
