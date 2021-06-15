@@ -12,7 +12,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Sql({"classpath:schema.sql", "classpath:data.sql"})
 @RunWith(SpringRunner.class)
 @Import(EmployeeDao.class)
-//@SpringBootTest
 public class EmployeeDaoTest {
 
 
@@ -42,12 +40,6 @@ public class EmployeeDaoTest {
         Employee employee3 = new Employee(3, "Stepan", "Stepanov", 2, "line manager", Gender.MALE, LocalDate.of(1991, 10, 1));
         Employee employee4 = new Employee(4, "Fiodr", "Fiodorov", 2, "tester", Gender.MALE, LocalDate.of(1991, 9, 1));
 
-        List<Employee> list = new ArrayList<>();
-        list.add(employee1);
-        list.add(employee2);
-        list.add(employee3);
-        list.add(employee4);
-
         List<Employee> result = employeeDao.findAll();
         assertEquals(result.get(0).getEmployeeId(), employee1.getEmployeeId());
         assertEquals(result.get(1).getEmployeeId(), employee2.getEmployeeId());
@@ -61,9 +53,6 @@ public class EmployeeDaoTest {
     public void findByDepartmentId() {
         Employee employee1 = new Employee(1, "Ivan", "Ivanov", 1, "line manager", Gender.MALE, LocalDate.of(1991, 12, 1));
         Employee employee2 = new Employee(2, "Petr", "Petrov", 1, "tester", Gender.MALE, LocalDate.of(1991, 11, 1));
-        List<Employee> list = new ArrayList<>();
-        list.add(employee1);
-        list.add(employee2);
 
         List<Employee> result = employeeDao.findByDepartmentId(1);
         assertEquals(result.get(0).getEmployeeId(), employee1.getEmployeeId());
@@ -74,22 +63,21 @@ public class EmployeeDaoTest {
     public void deleteEmployee() {
         employeeDao.deleteEmployee(1);
         assertEquals(3, employeeDao.findAll().size());
-
     }
 
     @Test
     public void newEmployee() {
         Employee employee1 = new Employee(5, "Artem", "Ivanov", 1, "line manager", Gender.MALE, LocalDate.of(1991, 12, 1));
-        employeeDao.newEmployee(employee1);
 
+        employeeDao.newEmployee(employee1);
         assertEquals(employee1.getEmployeeId(), employeeDao.findById(5).getEmployeeId());
     }
 
     @Test
     public void updateEmployee() {
         Employee employee1 = new Employee(1, "Artem", "Ivanov", 1, "line manager", Gender.MALE, LocalDate.of(1991, 12, 1));
-        employeeDao.updateEmployee(employee1, 1);
 
+        employeeDao.updateEmployee(employee1, 1);
         assertEquals(employee1.getFirstName(), employeeDao.findById(1).getFirstName());
     }
 }

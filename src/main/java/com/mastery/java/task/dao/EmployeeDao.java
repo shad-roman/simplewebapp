@@ -99,7 +99,6 @@ public class EmployeeDao {
             @Override
             public Boolean doInPreparedStatement(PreparedStatement ps) throws SQLException {
                 setParametersForEmployee(newEmployee, ps);
-
                 return ps.execute();
             }
         });
@@ -129,16 +128,21 @@ public class EmployeeDao {
         Integer departmentId = resultSet.getInt(4);
         String jobTitle = resultSet.getString(5);
         String gender = resultSet.getString(6);
+        Gender genderEnum = convertGenderToEnum(gender);
+        LocalDate dateOfBirth = resultSet.getDate(7).toLocalDate();
+
+        employee = new Employee(employeeId, firstName, lastName, departmentId, jobTitle, genderEnum, dateOfBirth);
+        return employee;
+    }
+
+    private Gender convertGenderToEnum(String gender) {
         Gender genderEnum = null;
         if (gender.equals("Male")) {
             genderEnum = MALE;
         } else if (gender.equals("Female")) {
             genderEnum = FEMALE;
         }
-        LocalDate dateOfBirth = resultSet.getDate(7).toLocalDate();
-
-        employee = new Employee(employeeId, firstName, lastName, departmentId, jobTitle, genderEnum, dateOfBirth);
-        return employee;
+        return genderEnum;
     }
 
 
